@@ -3,120 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EduNova — Onlayn ta'lim platformasi</title>
+<title>Ro'yxatdan o'tish — 3000</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="platform.css">
-<link rel="stylesheet" href="./style.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #05060f;
+    --violet: #7b5cff;
+    --cyan: #35f2ff;
+    --magenta: #ff3df2;
+    --text: #e8ecff;
+    --dim: #8e95c4;
+    --error: #ff5c7a;
+    --ok: #4dffb0;
+    --display: "Orbitron", "Trebuchet MS", sans-serif;
+    --body: "Exo 2", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--body); color: var(--text); min-height: 100vh;
+    display: grid; place-items: center; padding: 24px; line-height: 1.6; overflow-x: hidden;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(123,92,255,.35), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(255,61,242,.25), transparent 50%),
+      var(--void);
+  }
+  /* Yulduzlar */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, #fff, transparent),
+      radial-gradient(1px 1px at 78% 14%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 40% 70%, var(--cyan), transparent),
+      radial-gradient(1px 1px at 90% 60%, #fff, transparent),
+      radial-gradient(1px 1px at 25% 88%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 62% 38%, var(--magenta), transparent);
+    background-size: 420px 420px; opacity: .8;
+  }
+  /* Perspektiv panjara */
+  body::after {
+    content: ""; position: fixed; left: -50%; right: -50%; bottom: 0; height: 45vh; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(53,242,255,.25) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(53,242,255,.25) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(300px) rotateX(62deg); transform-origin: bottom;
+    -webkit-mask-image: linear-gradient(to top, #000, transparent);
+    mask-image: linear-gradient(to top, #000, transparent);
+    animation: grid 4s linear infinite;
+  }
+  @keyframes grid { to { background-position: 0 60px; } }
+
+  :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+  .stage { position: relative; z-index: 1; width: min(460px, 100%); }
+
+  /* Aylanuvchi halqa */
+  .ring {
+    position: absolute; width: 640px; height: 640px; left: 50%; top: 50%;
+    margin: -320px 0 0 -320px; border-radius: 50%; pointer-events: none;
+    border: 1px dashed rgba(53,242,255,.35);
+    animation: spin 40s linear infinite;
+  }
+  .ring.two { width: 520px; height: 520px; margin: -260px 0 0 -260px; border-color: rgba(255,61,242,.35); animation-duration: 28s; animation-direction: reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .panel {
+    position: relative; padding: 38px 32px 32px;
+    background: linear-gradient(160deg, rgba(20,22,52,.78), rgba(8,9,24,.85));
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
+    box-shadow: inset 0 0 0 1px rgba(53,242,255,.45);
+  }
+  .panel::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+    animation: scan 5s ease-in-out infinite;
+  }
+  @keyframes scan { 0%,100% { top: 0; opacity: 1; } 50% { top: 100%; opacity: .2; } }
+
+  h1 {
+    font-family: var(--display); font-weight: 800; font-size: 1.55rem; letter-spacing: .06em;
+    background: linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 6px;
+  }
+  .sub { color: var(--dim); font-weight: 300; margin-bottom: 26px; }
+
+  form { display: grid; gap: 20px; }
+  label { font-family: var(--display); font-weight: 500; font-size: .72rem; letter-spacing: .12em; color: var(--cyan); display: grid; gap: 6px; }
+  .field { position: relative; }
+  input {
+    width: 100%; font: 400 1rem var(--body); color: var(--text);
+    padding: 12px 6px; background: rgba(53,242,255,.05);
+    border: 0; border-bottom: 2px solid rgba(142,149,196,.5); border-radius: 4px 4px 0 0;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+  }
+  input::placeholder { color: rgba(142,149,196,.6); }
+  input:focus { outline: none; border-bottom-color: var(--cyan); background: rgba(53,242,255,.1); box-shadow: 0 8px 18px -10px var(--cyan); }
+  input.bad { border-bottom-color: var(--error); box-shadow: 0 8px 18px -10px var(--error); }
+  input.good { border-bottom-color: var(--ok); }
+  .toggle {
+    position: absolute; right: 2px; top: 50%; transform: translateY(-50%);
+    background: none; border: 1px solid rgba(53,242,255,.5); color: var(--cyan);
+    font: 600 .72rem var(--display); letter-spacing: .06em; padding: 5px 9px; cursor: pointer;
+  }
+  .toggle:hover { background: rgba(53,242,255,.15); }
+  .err { font-family: var(--body); letter-spacing: 0; color: var(--error); font-weight: 400; font-size: .85rem; min-height: 1.2em; }
+  .hint { font-family: var(--body); letter-spacing: 0; color: var(--dim); font-weight: 300; font-size: .85rem; }
+
+  .bar { height: 4px; background: rgba(142,149,196,.25); overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--error); box-shadow: 0 0 10px currentColor; transition: width .25s, background .25s; }
+
+  button.send {
+    position: relative; overflow: hidden; margin-top: 6px; cursor: pointer;
+    font: 800 .95rem var(--display); letter-spacing: .14em; color: var(--void);
+    padding: 15px; border: 0;
+    background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+    clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+    transition: filter .2s, transform .15s;
+  }
+  button.send:hover { filter: brightness(1.15) saturate(1.2); transform: translateY(-2px); }
+  button.send::after {
+    content: ""; position: absolute; top: 0; bottom: 0; width: 40%; left: -60%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+    transform: skewX(-20deg);
+  }
+  button.send:hover::after { animation: shine .8s; }
+  @keyframes shine { to { left: 130%; } }
+
+  #status { text-align: center; font-family: var(--display); font-size: .8rem; letter-spacing: .08em; color: var(--ok); min-height: 1.4em; text-shadow: 0 0 10px var(--ok); }
+  .back { display: block; text-align: center; margin-top: 18px; color: var(--dim); font-size: .95rem; text-decoration: none; }
+  .back:hover { color: var(--cyan); }
+
+  @media (max-width: 520px) { .panel { padding: 30px 22px 26px; } .ring { display: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
 </head>
 <body>
 
-<header>
-  <div class="wrap nav">
-    <a class="logo" href="#top">EDUNOVA</a>
-    <button class="burger" id="burger" aria-expanded="false" aria-label="Menyuni ochish">Menyu</button>
-    <ul id="menu">
-      <li><a href="#kurslar">Kurslar</a></li>
-      <li><a href="#afzallik">Afzalliklar</a></li>
-      <li><a href="#royxat">Ro'yxatdan o'tish</a></li>
-      <li><a class="hl" href="https://ops-5-b.netlify.app">5-sinf</a></li>
-    </ul>
-    <a class="nav-btn" id="navBtn" href="#royxat">Boshlash</a>
+<div class="stage">
+  <div class="ring"></div>
+  <div class="ring two"></div>
+
+  <div class="panel">
+    <h1>RO'YXATDAN O'TISH</h1>
+    <p class="sub">Yangi hisob yaratish uchun ma'lumotlaringizni kiriting.</p>
+
+    <form id="form" novalidate>
+      <label>EMAIL
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="ism@pochta.uz" required>
+        <span class="err" id="e-email"></span>
+      </label>
+
+      <label>TELEFON RAQAM
+        <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+998 90 123 45 67" required>
+        <span class="err" id="e-phone"></span>
+      </label>
+
+      <label>PAROL
+        <div class="field">
+          <input type="password" id="pass" name="password" autocomplete="new-password" placeholder="Kamida 8 ta belgi" required>
+          <button type="button" class="toggle" id="toggle" aria-label="Parolni ko'rsatish">KO'RSAT</button>
+        </div>
+        <div class="bar" aria-hidden="true"><span id="strength"></span></div>
+        <span class="hint">Kamida 8 ta belgi, harf va raqam bo'lsin.</span>
+        <span class="err" id="e-pass"></span>
+      </label>
+
+      <label>PAROLNI TAKRORLANG
+        <input type="password" id="pass2" autocomplete="new-password" required>
+        <span class="err" id="e-pass2"></span>
+      </label>
+
+      <button class="send" type="submit">HISOB YARATISH</button>
+      <div id="status" role="status"></div>
+    </form>
+
+    <a class="back" href="index.html">Bosh sahifaga qaytish</a>
   </div>
-</header>
+</div>
 
-<main id="top">
-  <section class="hero">
-    <div class="wrap">
-      <h1>Kelajak kasblarini bugun o'rganing</h1>
-      <p>Tajribali ustozlar, video darslar va amaliy topshiriqlar. O'zingizga qulay vaqtda o'qing.</p>
-      <div class="search">
-        <input type="search" id="q" placeholder="Kurs nomini yozing: Python, IELTS, dizayn..." aria-label="Kurslarni qidirish">
-        <button type="button" id="qBtn">Qidirish</button>
-      </div>
-      <div class="stats">
-        <div><b>120+</b><span>video kurs</span></div>
-        <div><b>45 000</b><span>o'quvchi</span></div>
-        <div><b>60</b><span>ustoz</span></div>
-      </div>
-    </div>
-  </section>
+<script>
+  const $ = id => document.getElementById(id);
+  const email = $('email'), phone = $('phone'), pass = $('pass'), pass2 = $('pass2');
 
-  <section class="classband" id="sinf">
-    <div class="wrap classband-box">
-      <div>
-        <span class="badge">YANGI</span>
-        <h2>5-sinf</h2>
-        <p>Sinf rahbari: Aziza Usmonovna · 9 o'quvchi · 8 ta test. Testlarni yeching, 💎 olmos yuting va reytingda birinchi bo'ling.</p>
-      </div>
-      <a class="btn-class" href="sinf.html">5-sinfga kirish →</a>
-    </div>
-  </section>
+  // Telefon raqamni +998 XX XXX XX XX ko'rinishida yozib beradi
+  phone.addEventListener('input', () => {
+    let d = phone.value.replace(/\D/g, '');
+    if (!d.startsWith('998')) d = '998' + d;
+    d = d.slice(0, 12);
+    const p = [d.slice(0,3), d.slice(3,5), d.slice(5,8), d.slice(8,10), d.slice(10,12)].filter(Boolean);
+    phone.value = '+' + p.join(' ');
+  });
 
-  <section id="kurslar">
-    <div class="wrap">
-      <h2>Mashhur kurslar</h2>
-      <p class="lead">Yo'nalishni tanlang yoki yuqoridagi qidiruvdan foydalaning.</p>
-      <div class="filters" id="filters">
-        <button class="chip on" data-cat="all">Hammasi</button>
-        <button class="chip" data-cat="Dasturlash">Dasturlash</button>
-        <button class="chip" data-cat="Tillar">Tillar</button>
-        <button class="chip" data-cat="Dizayn">Dizayn</button>
-        <button class="chip" data-cat="Fanlar">Fanlar</button>
-      </div>
-      <div class="grid" id="grid"></div>
-      <p id="empty">Bunday kurs topilmadi. Boshqa so'z bilan qidirib ko'ring.</p>
-    </div>
-  </section>
+  // Parolni ko'rsatish / yashirish
+  $('toggle').addEventListener('click', () => {
+    const show = pass.type === 'password';
+    pass.type = pass2.type = show ? 'text' : 'password';
+    $('toggle').textContent = show ? 'YASHIR' : "KO'RSAT";
+  });
 
-  <section class="perks" id="afzallik">
-    <div class="wrap">
-      <h2>Nega EduNova</h2>
-      <div class="perk-grid">
-        <div class="perk"><i></i><h3>Istalgan vaqtda</h3><p>Darslar yozib qo'yilgan. Telefonda ham, kompyuterda ham ko'rasiz.</p></div>
-        <div class="perk"><i></i><h3>Amaliy topshiriqlar</h3><p>Har darsdan keyin mashq bor, ustoz natijani tekshiradi.</p></div>
-        <div class="perk"><i></i><h3>Sertifikat</h3><p>Kursni tugatganingizda sertifikat olasiz.</p></div>
-      </div>
-    </div>
-  </section>
+  // Parol kuchi
+  pass.addEventListener('input', () => {
+    const v = pass.value;
+    let s = 0;
+    if (v.length >= 8) s++;
+    if (/[A-Za-z]/.test(v) && /\d/.test(v)) s++;
+    if (/[A-Z]/.test(v) && /[a-z]/.test(v)) s++;
+    if (/[^A-Za-z0-9]/.test(v) || v.length >= 12) s++;
+    const bar = $('strength');
+    bar.style.width = (s * 25) + '%';
+    bar.style.background = s <= 1 ? '#ff5c7a' : s <= 2 ? '#ffc24d' : '#4dffb0';
+    bar.style.color = bar.style.background;
+  });
 
-  <section class="signup" id="royxat">
-    <div class="wrap signup-box">
-      <div>
-        <h2>Hisob yarating</h2>
-        <p class="lead">Ro'yxatdan o'ting va birinchi darslarni bepul ko'ring.</p>
-      </div>
-      <form id="form" novalidate>
-        <label>EMAIL
-          <input class="f" type="email" id="email" autocomplete="email" placeholder="ism@pochta.uz">
-          <span class="err" id="e-email"></span>
-        </label>
-        <label>TELEFON RAQAM
-          <input class="f" type="tel" id="phone" autocomplete="tel" inputmode="tel" placeholder="+998 90 123 45 67">
-          <span class="err" id="e-phone"></span>
-        </label>
-        <label>PAROL
-          <div class="field">
-            <input class="f" type="password" id="pass" autocomplete="new-password" placeholder="Kamida 8 ta belgi">
-            <button type="button" class="toggle" id="toggle" aria-label="Parolni ko'rsatish">KO'RSAT</button>
-          </div>
-          <div class="bar" aria-hidden="true"><span id="strength"></span></div>
-          <span class="err" id="e-pass"></span>
-        </label>
-        <label>PAROLNI TAKRORLANG
-          <input class="f" type="password" id="pass2" autocomplete="new-password">
-          <span class="err" id="e-pass2"></span>
-        </label>
-        <button class="send" type="submit">HISOB YARATISH</button>
-        <div id="status" role="status"></div>
-      </form>
-    </div>
-  </section>
-</main>
+  function mark(input, errId, msg) {
+    $(errId).textContent = msg;
+    input.classList.toggle('bad', !!msg);
+    input.classList.toggle('good', !msg);
+    return !msg;
+  }
 
-<footer><div class="wrap">© <span id="year"></span> EduNova. Barcha huquqlar himoyalangan.</div></footer>
+  function validate() {
+    const okEmail = mark(email, 'e-email',
+      /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : "Email noto'g'ri yozilgan.");
+    const okPhone = mark(phone, 'e-phone',
+      /^\+998 \d{2} \d{3} \d{2} \d{2}$/.test(phone.value) ? '' : "Raqamni to'liq kiriting: +998 XX XXX XX XX");
+    const okPass = mark(pass, 'e-pass',
+      pass.value.length >= 8 && /[A-Za-z]/.test(pass.value) && /\d/.test(pass.value)
+        ? '' : "Parol kamida 8 ta belgi, harf va raqamdan iborat bo'lsin.");
+    const okPass2 = mark(pass2, 'e-pass2',
+      pass2.value && pass2.value === pass.value ? '' : "Parollar bir xil emas.");
+    return okEmail && okPhone && okPass && okPass2;
+  }
 
-<script src="platform.js"></script>
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    $('status').textContent = '';
+    if (!validate()) return;
+
+    // Shu yerda ma'lumotni o'z serveringizga yuborasiz:
+    // fetch('/api/register', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ email: email.value.trim(), phone: phone.value, password: pass.value })
+    // });
+
+    $('status').textContent = "HISOB YARATILDI";
+    try { sessionStorage.setItem('edunova_user', email.value.trim()); } catch (err) {}
+    setTimeout(() => { window.location.href = "platform.html"; }, 900);
+    e.target.reset();
+    document.querySelectorAll('input').forEach(i => i.classList.remove('good', 'bad'));
+    $('strength').style.width = '0';
+  });
+</script>
 </body>
 </html>

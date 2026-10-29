@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduNova — Onlayn ta'lim platformasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="platform.css">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">EDUNOVA</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-label="Menyuni ochish">Menyu</button>
+    <ul id="menu">
+      <li><a href="#kurslar">Kurslar</a></li>
+      <li><a href="#afzallik">Afzalliklar</a></li>
+      <li><a href="#royxat">Ro'yxatdan o'tish</a></li>
+      <li><a class="hl" href="https://ops-5-b.netlify.app">5-sinf</a></li>
+    </ul>
+    <a class="nav-btn" id="navBtn" href="#royxat">Boshlash</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <h1>Kelajak kasblarini bugun o'rganing</h1>
+      <p>Tajribali ustozlar, video darslar va amaliy topshiriqlar. O'zingizga qulay vaqtda o'qing.</p>
+      <div class="search">
+        <input type="search" id="q" placeholder="Kurs nomini yozing: Python, IELTS, dizayn..." aria-label="Kurslarni qidirish">
+        <button type="button" id="qBtn">Qidirish</button>
+      </div>
+      <div class="stats">
+        <div><b>120+</b><span>video kurs</span></div>
+        <div><b>45 000</b><span>o'quvchi</span></div>
+        <div><b>60</b><span>ustoz</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="classband" id="sinf">
+    <div class="wrap classband-box">
+      <div>
+        <span class="badge">YANGI</span>
+        <h2>5-sinf</h2>
+        <p>Sinf rahbari: Aziza Usmonovna · 9 o'quvchi · 8 ta test. Testlarni yeching, 💎 olmos yuting va reytingda birinchi bo'ling.</p>
+      </div>
+      <a class="btn-class" href="sinf.html">5-sinfga kirish →</a>
+    </div>
+  </section>
+
+  <section id="kurslar">
+    <div class="wrap">
+      <h2>Mashhur kurslar</h2>
+      <p class="lead">Yo'nalishni tanlang yoki yuqoridagi qidiruvdan foydalaning.</p>
+      <div class="filters" id="filters">
+        <button class="chip on" data-cat="all">Hammasi</button>
+        <button class="chip" data-cat="Dasturlash">Dasturlash</button>
+        <button class="chip" data-cat="Tillar">Tillar</button>
+        <button class="chip" data-cat="Dizayn">Dizayn</button>
+        <button class="chip" data-cat="Fanlar">Fanlar</button>
+      </div>
+      <div class="grid" id="grid"></div>
+      <p id="empty">Bunday kurs topilmadi. Boshqa so'z bilan qidirib ko'ring.</p>
+    </div>
+  </section>
+
+  <section class="perks" id="afzallik">
+    <div class="wrap">
+      <h2>Nega EduNova</h2>
+      <div class="perk-grid">
+        <div class="perk"><i></i><h3>Istalgan vaqtda</h3><p>Darslar yozib qo'yilgan. Telefonda ham, kompyuterda ham ko'rasiz.</p></div>
+        <div class="perk"><i></i><h3>Amaliy topshiriqlar</h3><p>Har darsdan keyin mashq bor, ustoz natijani tekshiradi.</p></div>
+        <div class="perk"><i></i><h3>Sertifikat</h3><p>Kursni tugatganingizda sertifikat olasiz.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="signup" id="royxat">
+    <div class="wrap signup-box">
+      <div>
+        <h2>Hisob yarating</h2>
+        <p class="lead">Ro'yxatdan o'ting va birinchi darslarni bepul ko'ring.</p>
+      </div>
+      <form id="form" novalidate>
+        <label>EMAIL
+          <input class="f" type="email" id="email" autocomplete="email" placeholder="ism@pochta.uz">
+          <span class="err" id="e-email"></span>
+        </label>
+        <label>TELEFON RAQAM
+          <input class="f" type="tel" id="phone" autocomplete="tel" inputmode="tel" placeholder="+998 90 123 45 67">
+          <span class="err" id="e-phone"></span>
+        </label>
+        <label>PAROL
+          <div class="field">
+            <input class="f" type="password" id="pass" autocomplete="new-password" placeholder="Kamida 8 ta belgi">
+            <button type="button" class="toggle" id="toggle" aria-label="Parolni ko'rsatish">KO'RSAT</button>
+          </div>
+          <div class="bar" aria-hidden="true"><span id="strength"></span></div>
+          <span class="err" id="e-pass"></span>
+        </label>
+        <label>PAROLNI TAKRORLANG
+          <input class="f" type="password" id="pass2" autocomplete="new-password">
+          <span class="err" id="e-pass2"></span>
+        </label>
+        <button class="send" type="submit">HISOB YARATISH</button>
+        <div id="status" role="status"></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© <span id="year"></span> EduNova. Barcha huquqlar himoyalangan.</div></footer>
+
+<script src="platform.js"></script>
+</body>
+</html>
